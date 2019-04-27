@@ -1,0 +1,22 @@
+<?php
+
+return [
+    'webname' => 'Welcome to Laravel Demo',
+    'language' => 'Language',
+
+    'links'=>[
+        'home'=>'Home',
+        'dashboard'=>'Dashboard',
+        'login'=>'Login',
+        'register'=>'Register',
+        'shareDetails'=>'Shares Details',
+    ],
+
+    'forms'=>[
+    'email'=>'Email Address',
+    'password'=>'Password',
+    'remember'=>'Remember Me',
+    'loginbtn'=>'Login',
+    'forgotpwd'=>'Forgot Your Password?',
+    ],
+];
