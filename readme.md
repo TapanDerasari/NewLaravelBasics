@@ -1,7 +1,8 @@
 ## About Project
-
 features:
-Localization
-Dynamic Breadcrumbs
-Multi Auth Support
-Image Cropping and resizing
+<ui>
+<li>Localization</li>
+<li>Dynamic Breadcrumbs</li>
+<li>Multi Auth Support</li>
+<li>Image Cropping and resizing</li>
+</ui>
