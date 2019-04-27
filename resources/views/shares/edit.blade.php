@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('pageCss')
     <link rel="stylesheet" href="{{ asset('css/areaselect/imgareaselect-default.css') }}">
-@endsection
+@endsection 
 @section('content')
    <div class="container">
     <div class="card uper">
