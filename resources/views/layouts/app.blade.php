@@ -49,8 +49,8 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="locale/en">{{ __('English') }}</a>
-                                <a class="dropdown-item" href="locale/gu">{{ __('Gujarati') }}</a>
+                                <a class="dropdown-item" href="locale/en">@lang('labels.english')</a>
+                                <a class="dropdown-item" href="locale/gu">@lang('labels.gujarati')</a>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -88,6 +88,7 @@
     </nav>
 
     <main class="py-4">
+        @yield('breadcrumb')
         @yield('content')
     </main>
 </div>

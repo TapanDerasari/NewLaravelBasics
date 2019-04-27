@@ -54,6 +54,7 @@ class ShareController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create',Share::class);
         $request->validate([
             'share_name' => 'required',
             'share_price' => 'required|integer',
@@ -132,6 +133,7 @@ class ShareController extends Controller
     public function destroy($id)
     {
         $share = Share::find($id);
+        $this->authorize('delete',$share);
         $share->delete();
 
         return redirect('/shares')->with('success', 'Stock has been deleted Successfully');

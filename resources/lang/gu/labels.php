@@ -3,6 +3,8 @@
 return [
     'webname' => 'લારવેલ ડેમો પર આપનું સ્વાગત છે',
     'language' => 'ભાષા',
+    'english' => 'અંગ્રેજી',
+    'gujarati' => 'ગુજરાતી',
 
     'links'=>[
         'home'=>'Home',

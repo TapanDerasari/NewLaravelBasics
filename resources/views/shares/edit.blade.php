@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group d-flex flex-md-column">
                     <label for="InputImage">Image:</label>
-                    <input type="file" name="image" id="InputImage" class="image" required>
+                    <input type="file" name="image" id="InputImage" class="image">
                     <input type="hidden" name="x1" value=""/>
                     <input type="hidden" name="y1" value=""/>
                     <input type="hidden" name="w" value=""/>
@@ -62,7 +62,6 @@
    </div>
 @endsection
 @section('pageScript')
-    <script type="text/javascript" src="{{asset('js/jquery-2.2.4.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/areaselect/jquery.imgareaselect.min.js')}}"></script>
     <script>
         jQuery(function ($) {

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title','shares')
+@section('breadcrumb',Breadcrumbs::render('share-index'))
 @section('content')
     <div class="container">
         <div class="uper">
@@ -8,9 +9,11 @@
                     {{ session()->get('success') }}
                 </div><br/>
             @endif
-            <div class="float-right mb-3">
-                <a href="{{route('shares.create')}}">Create</a>
-            </div>
+            @can('create',\App\Share::class)
+                    <div class="float-right mb-3">
+                        <a href="{{route('shares.create')}}">Create</a>
+                    </div>
+            @endcan
             <table id="shares" class="table table-hover table-condensed">
                 <thead>
                 <tr>

@@ -70,8 +70,9 @@
                     @auth
                         <a href="{{ url('/home') }}">@lang('labels.links.home')</a>
                     @else
-                        <a class="dropdown-item" href="locale/en">{{ __('English') }}</a>
-                        <a class="dropdown-item" href="locale/gu">{{ __('Gujarati') }}</a>
+                        <a href="{{ route('shares.index') }}">@lang('labels.links.shareDetails')</a>
+                        <a href="locale/en">@lang('labels.english')</a>
+                        <a href="locale/gu">@lang('labels.gujarati')</a>
                         <a href="{{ route('login') }}">@lang('labels.links.login')</a>
 
                         @if (Route::has('register'))
@@ -84,16 +85,6 @@
             <div class="content">
                 <div class="title m-b-md">
                     @lang('labels.webname')
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
             </div>
         </div>

@@ -3,6 +3,8 @@
 return [
     'webname' => 'Welcome to Laravel Demo',
     'language' => 'Language',
+    'english' => 'English',
+    'gujarati' => 'Gujarati',
 
     'links'=>[
         'home'=>'Home',
