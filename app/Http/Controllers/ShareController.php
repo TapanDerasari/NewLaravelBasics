@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Share;
+use App\Http\Requests\ShareRequest;
 use Datatables;
 use Intervention\Image\Facades\Image;
 
@@ -52,15 +53,9 @@ class ShareController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ShareRequest $request)
     {
         $this->authorize('create',Share::class);
-        $request->validate([
-            'share_name' => 'required',
-            'share_price' => 'required|integer',
-            'share_qty' => 'required|integer',
-            'image'=>'sometimes|file|image|max:5000'
-        ]);
         $share = new Share([
             'share_name' => $request->get('share_name'),
             'share_price' => $request->get('share_price'),
@@ -103,15 +98,8 @@ class ShareController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ShareRequest $request, $id)
     {
-        $request->validate([
-            'share_name' => 'required',
-            'share_price' => 'required|integer',
-            'share_qty' => 'required|integer',
-            'image'=>'sometimes|file|image|max:5000'
-        ]);
-
         $share = Share::find($id);
         $share->share_name = $request->get('share_name');
         $share->share_price = $request->get('share_price');

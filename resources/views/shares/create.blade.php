@@ -61,6 +61,7 @@
 @section('pageScript')
     <script type="text/javascript" src="{{asset('js/jquery-2.2.4.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/areaselect/jquery.imgareaselect.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.validate.js')}}"></script>
     <script>
         jQuery(function ($) {
 
@@ -84,6 +85,26 @@
                     $('input[name="h"]').val(selection.height);
                 }
             });
+           /* $('#shareform').validate({
+                rules: {
+                    share_name: {
+                        required: true
+                    },
+                    share_price: {
+                        required: true,
+                        digits: true
+                    },
+                    share_qty:{
+                        required: true,
+                        digits: true
+                    },
+                    image: {
+                        required: true,
+                        extension: "jpeg|png"
+                    },
+                },
+                errorClass: "error"
+            });*/
         });
     </script>
 @endsection
