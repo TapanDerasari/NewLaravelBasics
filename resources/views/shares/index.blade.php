@@ -10,9 +10,9 @@
                 </div><br/>
             @endif
             @can('create',\App\Share::class)
-                    <div class="float-right mb-3">
-                        <a href="{{route('shares.create')}}">Create</a>
-                    </div>
+                <div class="float-right mb-3">
+                    <a href="{{route('shares.create')}}">Create</a>
+                </div>
             @endcan
             <table id="shares" class="table table-hover table-condensed">
                 <thead>
@@ -28,6 +28,12 @@
                 </thead>
             </table>
             <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><b>Charts</b></div>
+                    <div class="panel-body">
+                        <canvas id="canvas" height="280" width="600"></canvas>
+                    </div>
+                </div>
             </div>
             @endsection
             @section('pageScript')
@@ -46,6 +52,52 @@
                                 {data: 'updated_at', name: 'updated_at'},
                                 {data: 'action', name: 'action'}
                             ]
+                        });
+                    });
+                </script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/bootstrap-select.min.js"
+                        charset="utf-8"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"
+                        charset="utf-8"></script>
+                <script>
+                    var url = "{{route('shares.getChartData')}}";
+                    var Years = new Array();
+                    var Labels = new Array();
+                    var Prices = new Array();
+                    $(document).ready(function () {
+                        $.ajax({
+                            type: 'GET',
+                            url: url,
+                            dataType:'json',
+                            success: function (response) {
+                                console.log(response);
+                                $(response).each(function (data) {
+                                    Years.push(data.created_at);
+                                    Labels.push(data.share_name);
+                                    Prices.push(data.share_price);
+                                });
+                                var ctx = document.getElementById("canvas").getContext('2d');
+                                var myChart = new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: Years,
+                                        datasets: [{
+                                            label: 'Share Prices',
+                                            data: Prices,
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true
+                                                }
+                                            }]
+                                        }
+                                    }
+                                });
+                            }
                         });
                     });
                 </script>

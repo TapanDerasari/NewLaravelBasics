@@ -84,4 +84,9 @@ class SharePolicy
     {
         //
     }
+
+    public function chart(User $user)
+    {
+        //
+    }
 }

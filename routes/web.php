@@ -30,6 +30,7 @@ Route::get('locale/{locale}', function ($locale) {
 Auth::routes();
 
 Route::resource('shares', 'ShareController');
+Route::get('shares/getChartData', 'ShareController@getChartData')->name('shares.getChartData');
 Route::get('shares/{id}/delete', 'ShareController@destroy')->name('shares.delete');
 Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm');
 Route::get('/register/admin', 'Auth\RegisterController@showAdminRegisterForm');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Share;
 use App\Http\Requests\ShareRequest;
 use Datatables;
+use Exception;
 use Intervention\Image\Facades\Image;
 
 class ShareController extends Controller
@@ -135,5 +136,10 @@ class ShareController extends Controller
             $image=Image::make(public_path('storage/').$share->image)->crop(request()->input('w'), request()->input('h'), request()->input('x1'), request()->input('y1'));
             $image->save();
         }
+    }
+
+    public function getChartData(Request $request)
+    {
+      return json_decode('helo');
     }
 }

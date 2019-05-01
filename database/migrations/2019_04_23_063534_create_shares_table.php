@@ -18,6 +18,7 @@ class CreateSharesTable extends Migration
             $table->string('share_name');
             $table->integer('share_price');
             $table->integer('share_qty');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

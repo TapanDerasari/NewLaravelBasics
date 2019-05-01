@@ -78,11 +78,6 @@ class RegisterController extends Controller
         return view('auth.register', ['url' => 'admin']);
     }
 
-    public function showWriterRegisterForm()
-    {
-        return view('auth.register', ['url' => 'writer']);
-    }
-
     protected function createAdmin(Request $request)
     {
         $this->validator($request->all())->validate();
