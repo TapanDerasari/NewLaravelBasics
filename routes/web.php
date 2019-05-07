@@ -29,12 +29,27 @@ Route::get('locale/{locale}', function ($locale) {
 });
 Auth::routes();
 
-Route::resource('shares', 'ShareController');
+
 Route::get('shares/getChartData', 'ShareController@getChartData')->name('shares.getChartData');
+Route::get('shares/getpdf', 'ShareController@getPdf')->name('shares.getpdf');
 Route::get('shares/{id}/delete', 'ShareController@destroy')->name('shares.delete');
+Route::resource('shares', 'ShareController');
 Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm');
 Route::get('/register/admin', 'Auth\RegisterController@showAdminRegisterForm');
 Route::post('/login/admin', 'Auth\LoginController@adminLogin');
 Route::post('/register/admin', 'Auth\RegisterController@createAdmin');
 Route::view('/home', 'home')->middleware('auth');
-Route::view('/admin', 'admin.dashboard');
+
+
+/**
+ * Admin Routes
+ */
+Route::group(['middleware' => 'isAdmin'], function () {
+    Route::view('/admin', 'admin.dashboard');
+    Route::resource('users', 'Admin\UserController');
+    Route::post('/users/status', 'Admin\UserController@StatusUpdate')->name('users.status');
+
+    //chatbox
+    Route::get('/chat', 'Admin\ChatController@index')->name('chat');
+});
+

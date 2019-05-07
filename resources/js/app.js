@@ -7,6 +7,10 @@
 
 require('./bootstrap');
 
+//sweetalerts
+window.swal = require('sweetalert2');
+//end sweetalert
+
 window.Vue = require('vue');
 
 /**

@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
+    <link rel="shortcut icon" type="image/png" href="{{asset('img/project.png')}}"/>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('pageCss')
 </head>

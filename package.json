@@ -26,6 +26,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.1",
     "admin-lte": "^3.0.0-alpha.2",
-    "datatables.net-dt": "^1.10.19"
+    "datatables.net-dt": "^1.10.19",
+    "sweetalert2": "^8.10.1"
   }
 }

@@ -46,7 +46,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -61,16 +61,25 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\User
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user= User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        $authenticationToken = new \Gnello\OpenFireRestAPI\AuthenticationToken(ENV('OPENFIRE_USERNAME'), ENV('OPENFIRE_PASSWORD'));
+        $api = new \Gnello\OpenFireRestAPI\API(ENV('OPENFIRE_IP'), ENV('OPENFIRE_PORT'), $authenticationToken);
+        $api->Settings()->setServerName(ENV('OPENFIRE_SERVERNAME'));
+        $api->Settings()->setSSL(false);
+        $api->Settings()->setDebug(false);
+        $api->Settings()->setPlugin("/plugins/restapi/v1");
+        $result = $api->Users()->createUser($user->id, $data['password']
+            , $user->name, $user->email);
+        return $user;
     }
 
     public function showAdminRegisterForm()
@@ -86,6 +95,7 @@ class RegisterController extends Controller
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
         ]);
+
         return redirect()->intended('login/admin');
     }
 }

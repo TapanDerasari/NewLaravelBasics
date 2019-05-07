@@ -7,7 +7,9 @@ use App\Share;
 use App\Http\Requests\ShareRequest;
 use Datatables;
 use Exception;
+use Response;
 use Intervention\Image\Facades\Image;
+use \PDF;
 
 class ShareController extends Controller
 {
@@ -85,7 +87,7 @@ class ShareController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         $share = Share::find($id);
 
@@ -140,6 +142,21 @@ class ShareController extends Controller
 
     public function getChartData(Request $request)
     {
-      return json_decode('helo');
+      if ($request->ajax()){
+          $shares=Share::all()->toArray();
+          if ($shares){
+              return Response::json($shares,200);
+          }else{
+              return Response::json($shares,200);
+          }
+      }else{
+          return response('Bad request','500');
+      }
+    }
+
+    public function getPdf(Request $request){
+        $data = ['title' => 'Shares Details-LaravelDemo'];
+        $pdf = \PDF::loadView('shares.index', $data);
+        return $pdf->download('ShareDetails.pdf');
     }
 }

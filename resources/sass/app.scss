@@ -8,10 +8,12 @@ $fa-font-path:"../webfonts";
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~admin-lte/dist/css/adminlte.css';
-@import "~@fortawesome/fontawesome-free/css/fontawesome.css";
-@import "~@fortawesome/fontawesome-free/css/solid.css";
-@import "~@fortawesome/fontawesome-free/css/brands.css";
+@import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import "~datatables.net-dt/css/jquery.dataTables.min.css";
+@import '~sweetalert2/src/sweetalert2.scss';
 
 .navbar-laravel {
   background-color: #fff;

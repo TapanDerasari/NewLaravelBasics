@@ -33,6 +33,11 @@
                     <div class="panel-body">
                         <canvas id="canvas" height="280" width="600"></canvas>
                     </div>
+                    <div>
+                        <div class="text-center">
+                            <button type="button" id="exportButton" class="btn btn-outline-info">Export as PDF</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             @endsection
@@ -59,32 +64,48 @@
                         charset="utf-8"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"
                         charset="utf-8"></script>
+                <script src="{{asset('js/pdf/jspdf.min.js')}}"></script>
                 <script>
                     var url = "{{route('shares.getChartData')}}";
                     var Years = new Array();
                     var Labels = new Array();
                     var Prices = new Array();
                     $(document).ready(function () {
+                        //pdf
+                        $('#exportButton').click(function () {
+                            var can = document.getElementsByTagName("canvas");
+                            var dataURL = can[0].toDataURL("image/png");
+                            var width = 280;
+                            var height = 150;
+                            var pdf = new jsPDF('landscape');
+                            pdf.setFontSize(10);
+                            pdf.addImage(dataURL, 'PNG', 0, 0, width, height);
+                            pdf.save("Share-details.pdf");
+                        });
+
+                        //graph ajax
                         $.ajax({
                             type: 'GET',
                             url: url,
-                            dataType:'json',
-                            success: function (response) {
-                                console.log(response);
-                                $(response).each(function (data) {
-                                    Years.push(data.created_at);
-                                    Labels.push(data.share_name);
-                                    Prices.push(data.share_price);
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log(data);
+                                $.each(data, function (i, loop) {
+                                    Years.push(loop.created_at);
+                                    Labels.push(loop.share_name);
+                                    Prices.push(loop.share_price);
                                 });
                                 var ctx = document.getElementById("canvas").getContext('2d');
                                 var myChart = new Chart(ctx, {
                                     type: 'bar',
                                     data: {
-                                        labels: Years,
+                                        labels: Labels,
                                         datasets: [{
                                             label: 'Share Prices',
                                             data: Prices,
-                                            borderWidth: 1
+                                            borderWidth: 1,
+                                            backgroundColor: 'rgba(0, 99, 132, 0.6)',
+                                            borderColor: "rgba(220,220,220,0.8)",
                                         }]
                                     },
                                     options: {
@@ -100,5 +121,6 @@
                             }
                         });
                     });
+
                 </script>
 @endsection

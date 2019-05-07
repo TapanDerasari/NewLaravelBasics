@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Dashboard')
+@section('title','View users')
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -8,11 +8,11 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Dashboard</h1>
+                        <h1 class="m-0 text-dark">Users</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <div class="float-sm-right">
-                            {{Breadcrumbs::render('dashboard')}}
+                            {{Breadcrumbs::render('user-view',$user)}}
                         </div>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -23,10 +23,18 @@
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
-
+                <div class="row">
+                    <div class="col-xs-12">
+                        Name: {{$user->name}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        Email: {{$user->email}}
+                    </div>
+                </div>
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
 @endsection
