@@ -24,9 +24,11 @@
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.8.1",
+    "@fortawesome/fontawesome-free": "^5.8.2",
     "admin-lte": "^3.0.0-alpha.2",
     "datatables.net-dt": "^1.10.19",
+    "laravel-echo": "^1.5.3",
+    "pusher-js": "^4.4.0",
     "sweetalert2": "^8.10.1"
   }
 }

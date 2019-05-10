@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Admin;
+use Notification;
+use App\Notifications\UserCreated;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -79,6 +81,8 @@ class RegisterController extends Controller
         $api->Settings()->setPlugin("/plugins/restapi/v1");
         $result = $api->Users()->createUser($user->id, $data['password']
             , $user->name, $user->email);
+
+        Notification::send($user, new UserCreated($user));
         return $user;
     }
 

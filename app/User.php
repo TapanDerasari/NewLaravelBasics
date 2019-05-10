@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Cache;
+use App\Message;
 
 class User extends Authenticatable
 {
@@ -55,5 +56,11 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    //Messages
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
     }
 }

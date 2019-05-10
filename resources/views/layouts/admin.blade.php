@@ -14,12 +14,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Styles -->
     <link rel="shortcut icon" type="image/png" href="{{asset('img/project.png')}}"/>
-    @yield('pageCss')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('pageCss')
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-
+    <?php $admin=Auth::guard('admin')->user() ?>
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
         <!-- Left navbar links -->
@@ -43,13 +43,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
             </div>
         </form>
+
+        <ul class="navbar-nav ml-auto">
+            <!-- Notifications Dropdown Menu -->
+            <li class="nav-item dropdown show float-left">
+                <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
+                    <span class="badge badge-warning navbar-badge small" style="font-size: 60%">{{$admin->unreadNotifications()->count()}}</span>
+                    <i class="fa fa-bell"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 15rem">
+                    <span class="dropdown-item dropdown-header">{{$admin->unreadNotifications()->count()}} Notifications</span>
+                    @foreach($admin->unreadNotifications as $notification)
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-users mr-2"></i> New user registered- {{ $notification->data['name']}}
+                        <span class="float-right text-muted text-sm">{{$notification->created_at}}</span>
+                    </a>
+                    @endforeach
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                </div>
+            </li>
+        </ul>
     </nav>
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="{{url('/admin')}}" class="brand-link">
+        <a href="{{route('admin.dashboard')}}" class="brand-link">
             <img src="{{ asset('img/project.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                  style="opacity: .8">
             <span class="brand-text font-weight-light">Administrator</span>
@@ -63,9 +85,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <img src="{{ asset('img/profile.png') }}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="{{url('/admin')}}" class="d-block">Hello,{{Auth::guard('admin')->user()->name}}
-                        <Mr class="XYZ"></Mr>
-                    </a>
+                    <a href="{{route('admin.dashboard')}}" class="d-block">Hello,{{$admin->name}}</a>
                 </div>
             </div>
 
@@ -76,7 +96,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url('/admin')}}">
+                        <a class="nav-link" href="{{route('admin.dashboard')}}">
                             <i class="nav-icon fa fa-tachometer-alt"></i>
                             <p>
                                 {{ __('Dashboard') }}
@@ -107,7 +127,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('chat')}}">
+                        <a class="nav-link" href="#">
                             <i class="nav-icon fa fa-chalkboard-teacher"></i>
                             <p>
                                 {{ __('Messaging') }}

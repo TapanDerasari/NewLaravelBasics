@@ -45,7 +45,8 @@ Route::view('/home', 'home')->middleware('auth');
  * Admin Routes
  */
 Route::group(['middleware' => 'isAdmin'], function () {
-    Route::view('/admin', 'admin.dashboard');
+    Route::get('/admin/dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
+//    Route::view('/admin', 'admin.dashboard');
     Route::resource('users', 'Admin\UserController');
     Route::post('/users/status', 'Admin\UserController@StatusUpdate')->name('users.status');
 
@@ -53,3 +54,10 @@ Route::group(['middleware' => 'isAdmin'], function () {
     Route::get('/chat', 'Admin\ChatController@index')->name('chat');
 });
 
+/**
+ * Users Routes
+ */
+Route::get('/chat', 'Users\ChatController@index')->name('users.chat')->middleware('auth');
+Route::get('api/users', 'Api\V1\UsersController@index');
+Route::post('api/messages', 'Api\V1\MessagesController@index');
+Route::post('api/messages/send', 'Api\V1\MessagesController@store');

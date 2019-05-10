@@ -6,7 +6,9 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    @auth
+        <meta name="userID" content="{{ auth()->user()->id }}">
+    @endauth
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
@@ -37,6 +39,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('shares.index') }}">@lang('labels.links.shareDetails')</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('users.chat') }}">@lang('labels.links.chat')</a>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -63,6 +68,25 @@
                             </li>
                         @endif
                     @else
+                    <!-- Notifications Dropdown Menu -->
+                        <li class="nav-item dropdown show float-left">
+                            <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
+                                <span class="badge badge-warning navbar-badge small" style="font-size: 60%">{{Auth::user()->unreadNotifications()->count()}}</span>
+                                <i class="fa fa-bell"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 15rem">
+                                <span class="dropdown-item dropdown-header">{{Auth::user()->unreadNotifications()->count()}} Notifications</span>
+                                @foreach(Auth::user()->unreadNotifications as $notification)
+                                    <div class="dropdown-divider"></div>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fa fa-users mr-2"></i> New user registered- {{ $notification->data['name']}}
+                                        <span class="float-right text-muted text-sm">{{$notification->created_at}}</span>
+                                    </a>
+                                @endforeach
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                            </div>
+                        </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

@@ -12,6 +12,7 @@ return [
         'login'=>'Login',
         'register'=>'Register',
         'shareDetails'=>'Shares Details',
+        'chat'=>'Chat Box',
     ],
 
     'forms'=>[
