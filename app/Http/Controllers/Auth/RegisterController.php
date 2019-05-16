@@ -73,15 +73,6 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        $authenticationToken = new \Gnello\OpenFireRestAPI\AuthenticationToken(ENV('OPENFIRE_USERNAME'), ENV('OPENFIRE_PASSWORD'));
-        $api = new \Gnello\OpenFireRestAPI\API(ENV('OPENFIRE_IP'), ENV('OPENFIRE_PORT'), $authenticationToken);
-        $api->Settings()->setServerName(ENV('OPENFIRE_SERVERNAME'));
-        $api->Settings()->setSSL(false);
-        $api->Settings()->setDebug(false);
-        $api->Settings()->setPlugin("/plugins/restapi/v1");
-        $result = $api->Users()->createUser($user->id, $data['password']
-            , $user->name, $user->email);
-
         Notification::send($user, new UserCreated($user));
         return $user;
     }

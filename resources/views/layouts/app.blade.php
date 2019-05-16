@@ -74,17 +74,15 @@
                                 <span class="badge badge-warning navbar-badge small" style="font-size: 60%">{{Auth::user()->unreadNotifications()->count()}}</span>
                                 <i class="fa fa-bell"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 15rem">
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 20rem">
                                 <span class="dropdown-item dropdown-header">{{Auth::user()->unreadNotifications()->count()}} Notifications</span>
                                 @foreach(Auth::user()->unreadNotifications as $notification)
                                     <div class="dropdown-divider"></div>
                                     <a href="#" class="dropdown-item">
-                                        <i class="fa fa-users mr-2"></i> New user registered- {{ $notification->data['name']}}
-                                        <span class="float-right text-muted text-sm">{{$notification->created_at}}</span>
+                                        <i class="fa fa-users mr-2"></i>Welcome - {{ $notification->data['name']}}
+                                        <span class="float-right text-muted text-sm">{{$notification->created_at->format('Y-m-d')}}</span>
                                     </a>
                                 @endforeach
-                                <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

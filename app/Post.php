@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $guarded=[];
+    public $dateFormat = 'U';
     public function user()
     {
        return $this->belongsTo(User::class);

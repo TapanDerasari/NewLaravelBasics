@@ -18,6 +18,8 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->text('body');
+            $table->string('image')->nullable();
+            $table->smallInteger('status')->default('1')->comment('1-Active, 0-Inactive');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
