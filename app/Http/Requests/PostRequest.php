@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShareRequest extends FormRequest
+class PostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class ShareRequest extends FormRequest
     public function rules()
     {
         return [
-            'share_name' => 'required',
-            'share_price' => 'required|integer',
-            'share_qty' => 'required|integer',
+            'title' => 'required',
+            'body' => 'required',
             'image' => 'sometimes|file|image|max:5000'
         ];
     }

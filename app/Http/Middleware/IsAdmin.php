@@ -11,15 +11,19 @@ class IsAdmin
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      */
-    public function handle($request, Closure $next,$guard='admin' )
+    public function handle($request, Closure $next, $guard = 'admin')
     {
 
         if (!Auth::guard($guard)->check()) {
-            return redirect('/');
+            if ($request->ajax()) {
+                return response('Unauthorized.', 401);
+            } else {
+                return redirect()->guest('login');
+            }
         }
         return $next($request);
 

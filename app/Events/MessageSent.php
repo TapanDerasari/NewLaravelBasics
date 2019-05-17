@@ -18,6 +18,7 @@ class MessageSent
      * @var Message
      */
     public $message;
+
     /**
      * Create a new event instance.
      *

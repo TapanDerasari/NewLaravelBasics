@@ -33,15 +33,15 @@ class MessagesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $message = Message::create([
-            'sender_id'   => $request->input('sender_id'),
+            'sender_id' => $request->input('sender_id'),
             'receiver_id' => $request->input('receiver_id'),
-            'message'     => $request->input('message'),
+            'message' => $request->input('message'),
         ]);
 
         broadcast(new MessageSent($message));

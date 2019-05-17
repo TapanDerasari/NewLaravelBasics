@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Admin;
+use Illuminate\Support\Facades\Auth;
 use Notification;
 use App\Notifications\UserCreated;
 use Illuminate\Http\Request;
@@ -68,7 +69,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user= User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -90,7 +91,6 @@ class RegisterController extends Controller
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
         ]);
-
         return redirect()->intended('login/admin');
     }
 }

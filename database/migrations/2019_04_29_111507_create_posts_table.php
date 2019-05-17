@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->text('body');
             $table->string('image')->nullable();
             $table->smallInteger('status')->default('1')->comment('1-Active, 0-Inactive');
+            $table->string('author')->comment('post creator');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

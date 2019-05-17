@@ -19,8 +19,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-    <?php $admin=Auth::guard('admin')->user() ?>
-    <!-- Navbar -->
+<?php $admin = Auth::guard('admin')->user(); ?>
+<!-- Navbar -->
     <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
@@ -48,17 +48,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item dropdown show float-left">
                 <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
-                    <span class="badge badge-warning navbar-badge small" style="font-size: 60%">{{$admin->unreadNotifications()->count()}}</span>
+                    <span class="badge badge-warning navbar-badge small"
+                          style="font-size: 60%">{{$admin->unreadNotifications()->count()}}</span>
                     <i class="fa fa-bell"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 15rem">
                     <span class="dropdown-item dropdown-header">{{$admin->unreadNotifications()->count()}} Notifications</span>
                     @foreach($admin->unreadNotifications as $notification)
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-users mr-2"></i> New user registered- {{ $notification->data['name']}}
-                        <span class="float-right text-muted text-sm">{{$notification->created_at}}</span>
-                    </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-users mr-2"></i> New user registered- {{ $notification->data['name']}}
+                            <span class="float-right text-muted text-sm">{{$notification->created_at}}</span>
+                        </a>
                     @endforeach
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
@@ -126,6 +127,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item has-treeview menu">
+                        <a href="#" class="nav-link">
+                            <i class="fa fa-images"></i>
+                            <p>
+                                Post Management
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-user-friends"></i>
+                                    <p>User posts</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-user-lock"></i>
+                                    <p>Admin Posts</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="nav-icon fa fa-chalkboard-teacher"></i>
@@ -153,10 +177,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.sidebar -->
     </aside>
 
-   @yield('content')
+@yield('content')
 
 
-    <!-- Main Footer -->
+<!-- Main Footer -->
     <footer class="main-footer">
         <!-- To the right -->
         <div class="float-right d-none d-sm-inline">

@@ -58,7 +58,7 @@ class ShareController extends Controller
      */
     public function store(ShareRequest $request)
     {
-        $this->authorize('create',Share::class);
+        $this->authorize('create', Share::class);
         $share = new Share([
             'share_name' => $request->get('share_name'),
             'share_price' => $request->get('share_price'),
@@ -87,7 +87,7 @@ class ShareController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request, $id)
     {
         $share = Share::find($id);
 
@@ -108,8 +108,8 @@ class ShareController extends Controller
         $share->share_price = $request->get('share_price');
         $share->share_qty = $request->get('share_qty');
         $share->save();
-        if ($share->image){
-            unlink(public_path('storage/').$share->image);
+        if ($share->image) {
+            unlink(public_path('storage/') . $share->image);
         }
         $this->storeImage($share);
         return redirect('/shares')->with('success', 'Stock has been updated');
@@ -124,37 +124,39 @@ class ShareController extends Controller
     public function destroy($id)
     {
         $share = Share::find($id);
-        $this->authorize('delete',$share);
+        $this->authorize('delete', $share);
         $share->delete();
 
         return redirect('/shares')->with('success', 'Stock has been deleted Successfully');
     }
 
-    public function storeImage($share){
-        if (request()->has('image')){
+    public function storeImage($share)
+    {
+        if (request()->has('image')) {
             $share->update([
-                'image'=>request()->image->store('uploads','public'),
+                'image' => request()->image->store('uploads', 'public'),
             ]);
-            $image=Image::make(public_path('storage/').$share->image)->crop(request()->input('w'), request()->input('h'), request()->input('x1'), request()->input('y1'));
+            $image = Image::make(public_path('storage/') . $share->image)->crop(request()->input('w'), request()->input('h'), request()->input('x1'), request()->input('y1'));
             $image->save();
         }
     }
 
     public function getChartData(Request $request)
     {
-      if ($request->ajax()){
-          $shares=Share::all()->toArray();
-          if ($shares){
-              return Response::json($shares,200);
-          }else{
-              return Response::json($shares,200);
-          }
-      }else{
-          return response('Bad request','500');
-      }
+        if ($request->ajax()) {
+            $shares = Share::all()->toArray();
+            if ($shares) {
+                return Response::json($shares, 200);
+            } else {
+                return Response::json($shares, 200);
+            }
+        } else {
+            return response('Bad request', '500');
+        }
     }
 
-    public function getPdf(Request $request){
+    public function getPdf(Request $request)
+    {
         $data = ['title' => 'Shares Details-LaravelDemo'];
         $pdf = \PDF::loadView('shares.index', $data);
         return $pdf->download('ShareDetails.pdf');

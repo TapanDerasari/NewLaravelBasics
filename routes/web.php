@@ -35,16 +35,21 @@ Route::get('shares/getpdf', 'ShareController@getPdf')->name('shares.getpdf');
 Route::get('shares/{id}/delete', 'ShareController@destroy')->name('shares.delete');
 Route::resource('shares', 'ShareController');
 Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm');
-Route::get('/register/admin', 'Auth\RegisterController@showAdminRegisterForm');
 Route::post('/login/admin', 'Auth\LoginController@adminLogin');
-Route::post('/register/admin', 'Auth\RegisterController@createAdmin');
 Route::view('/home', 'home')->middleware('auth');
 
-
+/**
+ * Posts routes
+ */
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('posts', 'PostController');
+});
 /**
  * Admin Routes
  */
 Route::group(['middleware' => 'isAdmin'], function () {
+    Route::get('/register/admin', 'Auth\RegisterController@showAdminRegisterForm');
+    Route::post('/register/admin', 'Auth\RegisterController@createAdmin');
     Route::get('/admin/dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
 //    Route::view('/admin', 'admin.dashboard');
     Route::resource('users', 'Admin\UserController');

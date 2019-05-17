@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $user=User::findOrFail(1);
+        $user = User::findOrFail(1);
         if ($request->ajax()) {
             $users = User::query();
             return (Datatables::of($users)
@@ -29,20 +29,20 @@ class UserController extends Controller
                       <a href="' . route('users.edit', $data->id) . '" class="btn btn-xs btn-primary"><i class="fa fa-edit"></i> Edit</a>';
                 })
                 ->addColumn('activity', function ($data) {
-                    if ($data->isOnline()){
+                    if ($data->isOnline()) {
                         return '<div class="text-success"><i class="fa fa-circle"></i> Online</div>';
-                    }else{
+                    } else {
                         return '<div class="text-danger">Offline</div>';
                     }
                 })
                 ->editColumn('status', function ($data) {
-                    if ($data->status){
-                        return '<button type="button" id="status-link" class="btn btn-success status-link" data-toggle="modal" data-id="'.$data->id.'" data-status="'.$data->status.'" data-target="#statusModal" onclick="statusClicked(this);">Enabled</button>';
-                    }else{
-                        return '<button type="button" id="status-link" class="btn btn-danger status-link" data-toggle="modal" data-id="'.$data->id.'" data-status="'.$data->status.'" data-target="#statusModal" onclick="statusClicked(this);">Disabled</button>';
+                    if ($data->status) {
+                        return '<button type="button" id="status-link" class="btn btn-success status-link" data-toggle="modal" data-id="' . $data->id . '" data-status="' . $data->status . '" data-target="#statusModal" onclick="statusClicked(this);">Enabled</button>';
+                    } else {
+                        return '<button type="button" id="status-link" class="btn btn-danger status-link" data-toggle="modal" data-id="' . $data->id . '" data-status="' . $data->status . '" data-target="#statusModal" onclick="statusClicked(this);">Disabled</button>';
                     }
                 })
-                ->rawColumns(['activity','status','action'])
+                ->rawColumns(['activity', 'status', 'action'])
                 ->editColumn('created_at', function ($data) {
                     return $data->created_at->format('d/m/Y');
                 })
@@ -82,7 +82,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('admin.users.view',compact('user'));
+        return view('admin.users.view', compact('user'));
     }
 
     /**
@@ -94,7 +94,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('admin.users.view',compact($user));
+        return view('admin.users.view', compact($user));
     }
 
     /**
@@ -120,16 +120,17 @@ class UserController extends Controller
         //
     }
 
-    public function StatusUpdate(Request $request){
-        if ($request->ajax()){
+    public function StatusUpdate(Request $request)
+    {
+        if ($request->ajax()) {
             $user = User::findOrFail($request->id);
-            if ($request->has('status')){
-                $user->status=$request->status;
+            if ($request->has('status')) {
+                $user->status = $request->status;
                 $user->save();
-                response()->json('User status has been updated',200);
+                response()->json('User status has been updated', 200);
             }
-        }else{
-            response()->json('Bad request',500);
+        } else {
+            response()->json('Bad request', 500);
         }
     }
 }

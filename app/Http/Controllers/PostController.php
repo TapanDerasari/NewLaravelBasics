@@ -1,22 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
+use Illuminate\Support\Facades\Auth;
+use App\Post;
 use Datatables;
 use Exception;
-use Response;
 use Intervention\Image\Facades\Image;
+use Response;
 
-class DashboardController extends Controller
+class PostController extends Controller
 {
-    public function __construct()
-    {
-
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +20,9 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        $totalUsers = User::all()->count();
-        return view('admin.dashboard', compact(['totalUsers']));
+        $user = Auth::user();
+        $posts = Post::where('user_id', $user->id)->get();
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -35,7 +32,7 @@ class DashboardController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -44,9 +41,17 @@ class DashboardController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+        $post = new Post();
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->user_id = Auth::user()->id;
+        $post->image = $request->image;
+        $post->save();
+        $this->storeImage($post);
+        return redirect('/posts')->with('success', 'Post has been created.');
+
     }
 
     /**
@@ -57,8 +62,7 @@ class DashboardController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        return view('admin.users.view', compact('user'));
+        //
     }
 
     /**
@@ -69,8 +73,8 @@ class DashboardController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        return view('admin.users.view', compact($user));
+        $post = Post::findOrFail($id);
+        return view('posts.create', compact('post'));
     }
 
     /**
@@ -80,7 +84,7 @@ class DashboardController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
         //
     }
@@ -96,17 +100,14 @@ class DashboardController extends Controller
         //
     }
 
-    public function StatusUpdate(Request $request)
+    public function storeImage($post)
     {
-        if ($request->ajax()) {
-            $user = User::findOrFail($request->id);
-            if ($request->has('status')) {
-                $user->status = $request->status;
-                $user->save();
-                response()->json('User status has been updated', 200);
-            }
-        } else {
-            response()->json('Bad request', 500);
+        if (request()->has('image')) {
+            $post->update([
+                'image' => request()->image->store('uploads/postImages', 'public'),
+            ]);
+            $image = Image::make(public_path('storage/') . $post->image)->crop(request()->input('w'), request()->input('h'), request()->input('x1'), request()->input('y1'));
+            $image->save();
         }
     }
 }

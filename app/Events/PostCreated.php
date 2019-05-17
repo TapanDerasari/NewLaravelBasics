@@ -15,6 +15,7 @@ class PostCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $post;
+
     /**
      * Create a new event instance.
      *
@@ -36,6 +37,7 @@ class PostCreated
             'title' => $this->post->title,
         ];
     }
+
     /**
      * Get the channels the event should broadcast on.
      *

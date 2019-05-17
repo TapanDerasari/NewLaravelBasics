@@ -40,11 +40,13 @@ class User extends Authenticatable
     ];
 
     //check user online
-    public function isOnline(){
-        return Cache::has('user-is-online-'.$this->id);
+    public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
     }
 
-    public function phone(){
+    public function phone()
+    {
         return $this->hasOne(Phone::class);
     }
 

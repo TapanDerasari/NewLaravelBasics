@@ -42,6 +42,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('users.chat') }}">@lang('labels.links.chat')</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('posts.index') }}">{{__('Posts')}}</a>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -71,7 +74,8 @@
                     <!-- Notifications Dropdown Menu -->
                         <li class="nav-item dropdown show float-left">
                             <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
-                                <span class="badge badge-warning navbar-badge small" style="font-size: 60%">{{Auth::user()->unreadNotifications()->count()}}</span>
+                                <span class="badge badge-warning navbar-badge small"
+                                      style="font-size: 60%">{{Auth::user()->unreadNotifications()->count()}}</span>
                                 <i class="fa fa-bell"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 20rem">
