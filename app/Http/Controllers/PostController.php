@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Like;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
@@ -20,8 +21,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
-        $posts = Post::where('user_id', $user->id)->get();
+        $posts = Post::all();
         return view('posts.index', compact('posts'));
     }
 
@@ -50,7 +50,7 @@ class PostController extends Controller
         $post->image = $request->image;
         $post->save();
         $this->storeImage($post);
-        return redirect('/posts')->with('success', 'Post has been created.');
+        return redirect()->back()->with('message', 'Post has been created.');
 
     }
 
@@ -86,7 +86,19 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->user_id = Auth::user()->id;
+        $post->save();
+        if ($post->image) {
+            $file = public_path('storage/') . $post->image;
+            if (!empty($file)) {
+                unlink($file);
+            }
+        }
+        $this->storeImage($post);
+        return redirect()->back()->with('message', 'Post has been updated.');
     }
 
     /**
@@ -108,6 +120,25 @@ class PostController extends Controller
             ]);
             $image = Image::make(public_path('storage/') . $post->image)->crop(request()->input('w'), request()->input('h'), request()->input('x1'), request()->input('y1'));
             $image->save();
+        }
+    }
+
+    public function likeDislike(Request $request)
+    {
+        if ($request->ajax()) {
+            $responseData = [];
+            $post = Post::findOrFail($request->post_id);
+            $user = Auth::user();
+            if ($user->likes->contains($post->id)) {
+                $user->likes()->detach($post);
+            } else {
+                $user->likes()->attach($post);
+            }
+            $totalLikes = Like::where('post_id', $post->id)->count();
+            $responseData['totalLikes'] = $totalLikes;
+            return response()->json($responseData, 200);
+        } else {
+            return redirect()->back()->with('message', 'Bad Request');
         }
     }
 }

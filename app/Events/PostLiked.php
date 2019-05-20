@@ -9,24 +9,17 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Message;
+use App\Like;
 
-class MessageSent
+class PostLiked
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    /**
-     * @var Message
-     */
-    public $message;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct(Message $message)
+    public $like;
+
+    public function __construct(Like $like)
     {
-            $this->message = $message;
+        $this->like = $like;
     }
 
     /**
@@ -36,6 +29,6 @@ class MessageSent
      */
     public function broadcastOn()
     {
-        return new Channel('newMessage-' . $this->message->sender_id . '-' . $this->message->receiver_id);
+        return new PrivateChannel('post-liked-' . $this->like->user_id . '-' . $this->post_id);
     }
 }

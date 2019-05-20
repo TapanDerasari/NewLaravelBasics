@@ -94,6 +94,9 @@
       <path value="$PROJECT_DIR$/vendor/phenx/php-font-lib" />
       <path value="$PROJECT_DIR$/vendor/pusher/pusher-php-server" />
       <path value="$PROJECT_DIR$/vendor/paragonie/sodium_compat" />
+      <path value="$PROJECT_DIR$/vendor/overtrue/laravel-follow" />
+      <path value="$PROJECT_DIR$/vendor/gnello/php-openfire-restapi" />
+      <path value="$PROJECT_DIR$/vendor/cybercog/laravel-love" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

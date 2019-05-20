@@ -4,44 +4,88 @@
     <link rel="stylesheet" href="{{asset('css/blog/blog.css')}}">
 @endsection
 @section('content')
+    @php
+        $user=Auth::user();
+    @endphp
     <!-- details card section starts from here -->
-    <a href="{{route('posts.create')}}" class="btn btn-primary float-right mr-5 ">Create Post</a>
-    <section class="details-card">
-        <div class="container">
-            <div class="row">
-                @if($posts)
+    <a href="{{route('posts.create')}}" class="btn btn-primary float-right mr-5  mb-5">Create Post</a>
+    @if($posts)
+        <section class="details-card">
+            <div class="container">
+                <div class="row">
                     @foreach($posts as $post)
                         <div class="col-md-4">
                             <div class="card-content">
                                 <div class="card-img">
                                     <img src="{{asset('storage/'.$post->image)}}" alt="">
-                                    <span>
-                                        <h4>
-                                            <a href="{{route('posts.edit',$post->id)}}">
-                                                <i class="fa fa-pencil-square-o"></i>
-                                                Edit
-                                            </a>
-                                        </h4>
-                                    </span>
                                 </div>
                                 <div class="card-desc">
                                     <h3>{{$post->title}}</h3>
                                     <p>{{$post->body}}</p>
                                     <a href="#" class="btn-card">Read</a>
                                     <button class="btn-card">
-                                        <i class="fa fa-heart" style="color: red"></i>
-                                        <span class="text-danger ml-2">0</span>
+                                        @if($user->likes->contains($post->id))
+                                            <i id="like{{$post->id}}" class="fa fa-heart" data-postid="{{$post->id}}"
+                                               data-status="liked" style="color: red"></i>
+                                        @else
+                                            <i id="like{{$post->id}}" class="fa fa-heart" data-postid="{{$post->id}}"
+                                               data-status="notLiked"></i>
+                                        @endif
+                                        <span class="ml-3"
+                                              id="totalLikes{{$post->id}}">{{$post->likes->count()}}</span>
                                     </button>
+                                    @if(Auth::user()->id == $post->user_id)
+                                        <a href="{{route('posts.edit',$post->id)}}" class="btn-card">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                            Edit
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     @endforeach
-                @endif
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @else
+        No Post Found.
+    @endif
     <!-- details card section starts from here -->
 
 @endsection
 @section('pageScript')
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
+            $('button.btn-card').click(function () {
+                var post_id = $(this).find('i.fa-heart').data('postid');
+                console.log(post_id);
+                $.ajax({
+                    type: 'POST',
+                    url: '{{route('like-dislike')}}',
+                    data: {post_id: post_id},
+                    success: function (data) {
+                        if ($('#like' + post_id).data('status') == 'liked') {
+                            $('#like' + post_id).css('color', 'white');
+                            $('#like' + post_id).data('status', 'notLiked');
+                        } else {
+                            $('#like' + post_id).css('color', 'red');
+                            $('#like' + post_id).data('status', 'liked');
+                        }
+                        $('#totalLikes' + post_id).html(data.totalLikes);
+                    }
+                });
+
+
+            });
+        });
+    </script>
 @endsection

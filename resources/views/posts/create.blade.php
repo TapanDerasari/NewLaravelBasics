@@ -11,8 +11,17 @@
                 @else
                     Create Post
                 @endif
+                <a href="{{route('posts.index')}}" class="btn btn-link float-right">Back</a>
             </div>
             <div class="card-body">
+                @if(session()->has('message'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ session()->get('message') }}
+                    </div>
+                @endif
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -23,8 +32,11 @@
                     </div><br/>
                 @endif
                 <form id="postform" method="post"
-                      action="{{ !empty($post)?route('posts.store'):route('posts.update') }}"
+                      action="{{ !empty($post)?route('posts.update',$post->id):route('posts.store') }}"
                       enctype="multipart/form-data">
+                    @if(!empty($post))
+                        @method('PATCH')
+                    @endif
                     <div class="form-group">
                         @csrf
                         <label for="title">Title:</label>

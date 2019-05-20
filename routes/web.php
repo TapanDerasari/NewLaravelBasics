@@ -43,6 +43,7 @@ Route::view('/home', 'home')->middleware('auth');
  */
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('posts', 'PostController');
+    Route::post('/posts/like-dislike', 'PostController@likeDislike')->name('like-dislike');
 });
 /**
  * Admin Routes
