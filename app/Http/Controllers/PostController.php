@@ -11,6 +11,9 @@ use Datatables;
 use Exception;
 use Intervention\Image\Facades\Image;
 use Response;
+use Notification;
+use App\Notifications\PostLiked;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 
 class PostController extends Controller
 {
@@ -62,7 +65,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::find($id);
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -133,6 +137,11 @@ class PostController extends Controller
                 $user->likes()->detach($post);
             } else {
                 $user->likes()->attach($post);
+                if ($post->user->id != $user->id) {
+                    $data['name'] = $user->name;
+                    $data['post'] = $post->title;
+                    Notification::send($post->user, new PostLiked($data));
+                }
             }
             $totalLikes = Like::where('post_id', $post->id)->count();
             $responseData['totalLikes'] = $totalLikes;
@@ -140,5 +149,18 @@ class PostController extends Controller
         } else {
             return redirect()->back()->with('message', 'Bad Request');
         }
+    }
+
+    public function markAllAsRead()
+    {
+        Auth::user()->unreadNotifications->markAsRead();
+        return redirect()->back();
+    }
+
+    public function markAsRead($id)
+    {
+        $notification = Auth::user()->notifications()->where('id', $id)->first();
+        $notification->markAsRead();
+        return redirect()->back();
     }
 }

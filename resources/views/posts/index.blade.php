@@ -21,8 +21,8 @@
                                 </div>
                                 <div class="card-desc">
                                     <h3>{{$post->title}}</h3>
-                                    <p>{{$post->body}}</p>
-                                    <a href="#" class="btn-card">Read</a>
+                                    <p>{{Str::limit($post->body, $limit = 75, $end = '...')}}</p>
+                                    <a href="{{route('posts.show',$post->id)}}" class="btn-card">Read</a>
                                     <button class="btn-card">
                                         @if($user->likes->contains($post->id))
                                             <i id="like{{$post->id}}" class="fa fa-heart" data-postid="{{$post->id}}"

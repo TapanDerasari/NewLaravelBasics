@@ -44,6 +44,7 @@ Route::view('/home', 'home')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('posts', 'PostController');
     Route::post('/posts/like-dislike', 'PostController@likeDislike')->name('like-dislike');
+    Route::post('/posts/comment', 'CommentController@store')->name('posts.comment');
 });
 /**
  * Admin Routes
@@ -67,3 +68,10 @@ Route::get('/chat', 'Users\ChatController@index')->name('users.chat')->middlewar
 Route::get('api/users', 'Api\V1\UsersController@index');
 Route::post('api/messages', 'Api\V1\MessagesController@index');
 Route::post('api/messages/send', 'Api\V1\MessagesController@store');
+
+
+/**
+ * Notifications read routes
+ */
+Route::get('/notifications/read/{id}', 'PostController@markAsRead')->name('notification.read');
+Route::get('/notifications/readAll', 'PostController@markAllAsRead')->name('notification.readAll');

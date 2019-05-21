@@ -78,14 +78,44 @@
                                       style="font-size: 60%">{{Auth::user()->unreadNotifications()->count()}}</span>
                                 <i class="fa fa-bell"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 20rem">
-                                <span class="dropdown-item dropdown-header">{{Auth::user()->unreadNotifications()->count()}} Notifications</span>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                                 style="min-width: 20rem">
+                                <span class="dropdown-item dropdown-header">
+                                    {{Auth::user()->unreadNotifications()->count()}} Notifications
+                                    <span class="float-right"><a href="{{route('notification.readAll')}}">Mark all as read</a></span>
+                                </span>
+
                                 @foreach(Auth::user()->unreadNotifications as $notification)
                                     <div class="dropdown-divider"></div>
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fa fa-users mr-2"></i>Welcome - {{ $notification->data['name']}}
-                                        <span class="float-right text-muted text-sm">{{$notification->created_at->format('Y-m-d')}}</span>
-                                    </a>
+                                    @if($notification->type=='App\Notifications\PostLiked')
+                                        <a href="#" class="dropdown-item" style="white-space: normal">
+                                            <i class="fa fa-heart mr-2"></i>{{ $notification->data['name']}} liked your
+                                            post "{{$notification->data['post']}}"
+                                            <span class="float-right text-muted text-sm">{{$notification->created_at->format('Y-m-d')}}</span>
+                                        </a>
+                                    @else
+                                        <a href="#" class="dropdown-item" style="white-space: normal">
+                                            <i class="fa fa-users mr-2"></i>Welcome - {{ $notification->data['name']}}
+                                            <span class="float-right text-muted text-sm">{{$notification->created_at->format('Y-m-d')}}</span>
+                                        </a>
+                                    @endif
+                                @endforeach
+                                @foreach(Auth::user()->readNotifications->take(5) as $notification)
+                                    <div class="dropdown-divider"></div>
+                                    @if($notification->type=='App\Notifications\PostLiked')
+                                        <a href="#" class="dropdown-item"
+                                           style="background-color: gainsboro;white-space: normal">
+                                            <i class="fa fa-heart mr-2"></i>{{ $notification->data['name']}} liked your
+                                            post "{{$notification->data['post']}}"
+                                            <span class="float-right text-muted text-sm">{{$notification->created_at->format('Y-m-d')}}</span>
+                                        </a>
+                                    @else
+                                        <a href="#" class="dropdown-item"
+                                           style="background-color: gainsboro;white-space: normal">
+                                            <i class="fa fa-users mr-2"></i>Welcome - {{ $notification->data['name']}}
+                                            <span class="float-right text-muted text-sm">{{$notification->created_at->format('Y-m-d')}}</span>
+                                        </a>
+                                    @endif
                                 @endforeach
                             </div>
                         </li>
