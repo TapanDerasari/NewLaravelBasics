@@ -13,10 +13,16 @@ use Intervention\Image\Facades\Image;
 use Response;
 use Notification;
 use App\Notifications\PostLiked;
-use Illuminate\Notifications\DatabaseNotificationCollection;
+use Illuminate\Support\Facades\URL;
+
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('signed')->only(['edit', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *

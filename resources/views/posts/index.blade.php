@@ -22,7 +22,7 @@
                                 <div class="card-desc">
                                     <h3>{{$post->title}}</h3>
                                     <p>{{Str::limit($post->body, $limit = 75, $end = '...')}}</p>
-                                    <a href="{{route('posts.show',$post->id)}}" class="btn-card">Read</a>
+                                    <a href="{{URL::signedRoute('posts.show',$post->id)}}" class="btn-card">Read</a>
                                     <button class="btn-card">
                                         @if($user->likes->contains($post->id))
                                             <i id="like{{$post->id}}" class="fa fa-heart" data-postid="{{$post->id}}"
@@ -35,7 +35,7 @@
                                               id="totalLikes{{$post->id}}">{{$post->likes->count()}}</span>
                                     </button>
                                     @if(Auth::user()->id == $post->user_id)
-                                        <a href="{{route('posts.edit',$post->id)}}" class="btn-card">
+                                        <a href="{{URL::signedRoute('posts.edit',$post->id)}}" class="btn-card">
                                             <i class="fa fa-pencil-square-o"></i>
                                             Edit
                                         </a>
