@@ -1,10 +1,9 @@
-
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
 @import 'variables';
-$fa-font-path:"../webfonts";
+
+$fa-font-path: "../webfonts";
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~admin-lte/dist/css/adminlte.css';
@@ -20,7 +19,8 @@ $fa-font-path:"../webfonts";
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
-.error{
-  color:red;
+
+.error {
+  color: red;
 }
 

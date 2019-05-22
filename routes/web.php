@@ -39,24 +39,17 @@ Route::post('/login/admin', 'Auth\LoginController@adminLogin');
 Route::view('/home', 'home')->middleware('auth');
 
 /**
- * Posts routes
- */
-Route::group(['middleware' => 'auth'], function () {
-    Route::resource('posts', 'PostController');
-    Route::post('/posts/like-dislike', 'PostController@likeDislike')->name('like-dislike');
-    Route::post('/posts/comment', 'CommentController@store')->name('posts.comment');
-});
-/**
  * Admin Routes
  */
 Route::group(['middleware' => 'isAdmin'], function () {
     Route::get('/register/admin', 'Auth\RegisterController@showAdminRegisterForm');
     Route::post('/register/admin', 'Auth\RegisterController@createAdmin');
     Route::get('/admin/dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
-//    Route::view('/admin', 'admin.dashboard');
     Route::resource('users', 'Admin\UserController');
     Route::post('/users/status', 'Admin\UserController@StatusUpdate')->name('users.status');
 
+    Route::get('/admin/users/posts', 'Admin\PostController@index')->name('admin.users.posts');
+    Route::get('/admin/users/posts/{{id}}', 'Admin\PostController@show')->name('admin.users.posts.show');
     //chatbox
     Route::get('/chat', 'Admin\ChatController@index')->name('chat');
 });
@@ -68,7 +61,15 @@ Route::get('/chat', 'Users\ChatController@index')->name('users.chat')->middlewar
 Route::get('api/users', 'Api\V1\UsersController@index');
 Route::post('api/messages', 'Api\V1\MessagesController@index');
 Route::post('api/messages/send', 'Api\V1\MessagesController@store');
-
+/**
+ * Posts routes
+ */
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('posts', 'PostController');
+    Route::get('posts/{{id}}-{{slug}}', 'PostController@show');
+    Route::post('/posts/like-dislike', 'PostController@likeDislike')->name('like-dislike');
+    Route::post('/posts/comment', 'CommentController@store')->name('posts.comment');
+});
 
 /**
  * Notifications read routes

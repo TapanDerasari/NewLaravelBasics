@@ -20,7 +20,7 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('signed')->only(['edit', 'show']);
+        $this->middleware('signed')->only(['edit']);
     }
 
     /**
@@ -101,7 +101,7 @@ class PostController extends Controller
         $post->body = $request->body;
         $post->user_id = Auth::user()->id;
         $post->save();
-        if ($post->image) {
+        if (!empty($post->image)) {
             $file = public_path('storage/') . $post->image;
             if (!empty($file)) {
                 unlink($file);

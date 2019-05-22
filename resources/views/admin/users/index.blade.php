@@ -23,7 +23,7 @@
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
-                <table id="users" class="table table-borderless">
+                <table id="users" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -55,10 +55,10 @@
                 <div class="modal-body">
                     <input type="hidden" name="uid" id="uid" value="">
                     <div class="form-group">
-                    <select name="status" id="status" class="form-control">
-                        <option value="1">Enabled</option>
-                        <option value="0">Disabled</option>
-                    </select>
+                        <select name="status" id="status" class="form-control">
+                            <option value="1">Enabled</option>
+                            <option value="0">Disabled</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -75,7 +75,6 @@
 @section('pageScript')
     <script type="text/javascript">
         $(document).ready(function () {
-
             oTable = $('#users').DataTable({
                 "processing": true,
                 "serverSide": true,
@@ -97,7 +96,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url:"{{ route('users.status') }}",
+                    url: "{{ route('users.status') }}",
                     type: "POST",
                     data: {id: $('#uid').val(), status: $("#status").val()},
                     success: function (response) {
@@ -129,11 +128,12 @@
             });
 
         });
-        function statusClicked(e){
-          var status = $(e).data('status');
-          var uid = $(e).data('id');
-          $("#status").val(status);
-          $("#uid").val(uid);
+
+        function statusClicked(e) {
+            var status = $(e).data('status');
+            var uid = $(e).data('id');
+            $("#status").val(status);
+            $("#uid").val(uid);
         }
     </script>
 @endsection
